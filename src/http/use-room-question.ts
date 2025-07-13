@@ -12,5 +12,13 @@ export function useRoomQuestions(roomId: string) {
       const result: GetRoomQuestionsResponse = await response.json();
       return result;
     },
+    refetchInterval: (query) => {
+      const data = query.state.data;
+      const hasGeneratingAnswers = data?.some(
+        (question) => question.isGeneratingAnswer
+      );
+      return hasGeneratingAnswers ? 3000 : false;
+    },
+    refetchIntervalInBackground: true,
   });
 }
